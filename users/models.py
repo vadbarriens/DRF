@@ -4,6 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     """Модель - Пользователь"""
+    username = None
     email = models.EmailField(unique=True, verbose_name='Email', help_text='Введите вашу почту')
     phone_number = models.CharField(max_length=35, verbose_name='Телефон', help_text='Укажите ваш номер телефона')
     avatar = models.ImageField(upload_to='users/avatar', blank=True, null=True, verbose_name='Аватар',
