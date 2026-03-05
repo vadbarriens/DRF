@@ -41,7 +41,6 @@ class LessonCreateApiView(CreateAPIView):
 class LessonListApiView(ListAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [IsModer]
 
     def get_queryset(self):
         return Lesson.objects.filter(owner=self.request.user)
