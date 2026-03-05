@@ -1,8 +1,10 @@
-from .models import Payment
-from .serializers import PaymentSerializer
+from .models import Payment, User
+
+from .serializers import PaymentSerializer, UserSerializer
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import AllowAny
 
 
 class PaymentCreateApiView(CreateAPIView):
@@ -10,7 +12,7 @@ class PaymentCreateApiView(CreateAPIView):
     serializer_class = PaymentSerializer
 
 
-class PaymentListApiView():
+class PaymentListApiView(ListAPIView):
     queryset = Payment.objects.all(ListAPIView)
     serializer_class = PaymentSerializer
     filter_backend = [DjangoFilterBackend, OrderingFilter]
@@ -31,3 +33,40 @@ class PaymentRetrieveApiView(RetrieveAPIView):
 class PaymentDestroyApiView(DestroyAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
+
+
+class UserCreateApiView(CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        user = serializer.save(is_active=True)
+        user.set_password(user.password)
+        user.save()
+
+
+class UserListApiView(ListAPIView):
+    queryset = User.objects.all(ListAPIView)
+    serializer_class = PaymentSerializer
+
+
+class UserUpdateApiView(UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserRetrieveApiView(RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserDestroyApiView(DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
