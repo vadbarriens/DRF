@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class Course(models.Model):
@@ -8,6 +9,9 @@ class Course(models.Model):
                                 help_text='Загрузите превью')
     description = models.TextField(blank=True, null=True, verbose_name='Описание курса',
                                    help_text='Напишите описание курса')
+
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь',
+                              help_text='Укажите пользователя')
 
     class Meta:
         """Метаданные"""
@@ -28,6 +32,8 @@ class Lesson(models.Model):
                                    help_text='Напишите описание урока')
     link_video = models.URLField(blank=True, null=True, verbose_name='Ссылка', help_text='Прикрепите ссылку на видео')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс', help_text='Укажите курс')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь',
+                              help_text='Укажите пользователя')
 
     class Meta:
         """Метаданные"""

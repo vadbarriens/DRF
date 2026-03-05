@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
 from materials.models import Course, Lesson
+from materials.paginators import CoursePagination, LessonPagination
 from materials.serializers import CourseSerializer, LessonSerializer
 from users.permissions import IsModer, IsOwner
 
@@ -8,6 +9,7 @@ from users.permissions import IsModer, IsOwner
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    pagination_class = CoursePagination
 
     def get_queryset(self):
         return Course.objects.filter(owner=self.request.user)
@@ -26,6 +28,11 @@ class CourseViewSet(ModelViewSet):
             self.permission_classes = (~IsModer | IsOwner,)
         return super().get_permissions()
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
+
 
 class LessonCreateApiView(CreateAPIView):
     queryset = Lesson.objects.all()
@@ -41,6 +48,7 @@ class LessonCreateApiView(CreateAPIView):
 class LessonListApiView(ListAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    pagination_class = LessonPagination
 
     def get_queryset(self):
         return Lesson.objects.filter(owner=self.request.user)
@@ -61,4 +69,4 @@ class LessonRetrieveApiView(RetrieveAPIView):
 class LessonDestroyApiView(DestroyAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
-    permission_classes = [~IsModer, IsOwner]
+    permission_classes = [IsOwner]

@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from users.apps import UsersConfig
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from users.views import UserCreateApiView, UserUpdateApiView, UserListApiView, UserDestroyApiView, \
-    UserRetrieveApiView
+    UserRetrieveApiView, SubscriptionApiView
 from rest_framework.permissions import AllowAny
 
 app_name = UsersConfig.name
@@ -18,6 +18,7 @@ urlpatterns = [
     path('user/<int:pk>/', UserRetrieveApiView.as_view(), name='user_retrieve'),
     path('user/<int:pk>/update/', UserUpdateApiView.as_view(), name='user_update'),
     path('user/<int:pk>/delete/', UserDestroyApiView.as_view(), name='user_delete'),
+    path('subscriptions/', SubscriptionApiView.as_view(), name='subscriptions'),
 
 ]
 urlpatterns += router.urls
