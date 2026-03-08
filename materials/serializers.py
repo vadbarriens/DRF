@@ -10,6 +10,9 @@ class LessonSerializer(ModelSerializer):
     class Meta:
         model = Lesson
         fields = '__all__'
+        extra_kwargs = {
+            'link': {'validators': [validate_link], 'required': False}
+        }
 
 
 class CourseSerializer(ModelSerializer):
