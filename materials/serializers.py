@@ -5,20 +5,17 @@ from users.models import Subscription
 
 
 class LessonSerializer(ModelSerializer):
-    validators = [validate_link]
-
     class Meta:
         model = Lesson
         fields = '__all__'
         extra_kwargs = {
-            'link': {'validators': [validate_link], 'required': False}
+            'link_video': {'validators': [validate_link], 'required': False}
         }
 
 
 class CourseSerializer(ModelSerializer):
     lessons = LessonSerializer(many=True, read_only=True)
     lessons_count = SerializerMethodField()
-    validators = [validate_link]
     is_subscribed = SerializerMethodField()
 
     def get_lessons_count(self, obj):
