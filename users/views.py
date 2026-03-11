@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from materials.models import Course
 from .models import Payment, User, Subscription
-
+from users.services import create_stripe_product, create_stripe_price, create_stripe_session
 from .serializers import PaymentSerializer, UserSerializer
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView, \
     get_object_or_404
@@ -15,6 +15,15 @@ from rest_framework.views import APIView
 class PaymentCreateApiView(CreateAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
+
+    def perform_create(self, serializer):
+        payment = serializer.save(users=self.request.user)
+        product = create_stripe_product(name=Course.title)
+        price = create_stripe_price(amount=product.amount, product=product)
+        session_id, session_link = create_stripe_session(price=price)
+        payment.session_id = session_id
+        payment.link = session_link
+        payment.save()
 
 
 class PaymentListApiView(ListAPIView):
