@@ -1,3 +1,4 @@
+from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
 from materials.models import Course, Lesson
@@ -6,6 +7,9 @@ from materials.serializers import CourseSerializer, LessonSerializer
 from users.permissions import IsModer, IsOwner
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
+from users.tasks import send_course_update_emails
+from rest_framework import status
+from rest_framework.response import Response
 
 
 @method_decorator(name='list', decorator=swagger_auto_schema(
@@ -37,6 +41,30 @@ class CourseViewSet(ModelViewSet):
         context = super().get_serializer_context()
         context['request'] = self.request
         return context
+
+    @action(detail=True, methods=['post'], url_path='update-course')
+    def update_course(self, request, pk=None):
+        """
+        Кастомное действие для обновления курса и рассылки уведомлений
+        """
+        course = self.get_object()
+
+        # Обновляем данные курса
+        serializer = self.get_serializer(course, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        # Запускаем асинхронную рассылку уведомлений
+        send_course_update_emails.delay(course.id)
+
+        return Response(
+            {"message": "Курс успешно обновлен", "data": serializer.data},
+            status=status.HTTP_200_OK
+        )
+
+    def perform_update(self, serializer):
+        """Переопределяем метод обновления для добавления кастомной логики"""
+        instance = serializer.save()
 
 
 class LessonCreateApiView(CreateAPIView):
