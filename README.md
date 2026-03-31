@@ -96,3 +96,52 @@ docker-compose logs <service_name>  # web, db, redis, celery, celery-beat
 
 - /var/lib/celery - состояние Celery Beat
 
+## CI/CD
+### Установка Docker и Docker Compose
+Обновление пакетов:
+```
+sudo apt update
+```
+установка Docker:
+```
+sudo apt install docker-compose
+```
+###  Настройка SSH-доступа
+Сгенерируйте SSH-ключ на локальной машине:
+```
+ssh-keygen -t ed25519 -f ~/.ssh/deploy_key -N ""
+```
+Скопируйте публичный ключ на сервер:
+```
+ssh-copy-id -i ~/.ssh/deploy_key.pub ваш_пользователь@ip_сервера
+```
+Проверьте подключение:
+```
+ssh -i ~/.ssh/deploy_key ваш_пользователь@ip_сервера
+```
+## Подготовка GitHub Secrets
+В настройках репозитория GitHub:
+
+Перейдите в Settings → Secrets and variables → Actions
+
+Создайте новые секреты:
+
+DOCKER_HUB_USERNAME - ваш логин на Docker Hub
+
+DOCKER_HUB_ACCESS_TOKEN - токен доступа Docker Hub
+
+SSH_PRIVATE_KEY - содержимое файла deploy_key (приватный ключ)
+
+SSH_USER - пользователь сервера (например, ubuntu)
+
+SERVER_IP - IP-адрес вашего сервера
+ ## Workflow CI/CD
+При каждом пуше в ветку develop автоматически выполняются:
+
+1. Линтинг кода (Flake8)
+
+2. Запуск тестов (pytest)
+
+3. Сборка Docker-образа и публикация в Docker Hub
+
+4. Деплой на удалённый сервер
