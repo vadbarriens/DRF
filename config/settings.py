@@ -9,6 +9,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+if not SECRET_KEY:
+    if 'test' in sys.argv or os.environ.get('CI') == 'true' or os.environ.get('DEBUG') == 'True':
+        SECRET_KEY = 'django-insecure-test-key-for-ci-only-12345'
+    else:
+        raise ValueError("SECRET_KEY environment variable must be set!")
+
+
 DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
