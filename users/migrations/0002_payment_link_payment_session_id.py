@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('users', '0001_initial'),
     ]
@@ -13,11 +12,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='payment',
             name='link',
-            field=models.URLField(blank=True, help_text='Укажите ссылку на оплату', max_length=400, null=True, verbose_name='Ссылка на оплату'),
+            field=models.URLField(blank=True, help_text='Укажите ссылку на оплату', max_length=400, null=True,
+                                  verbose_name='Ссылка на оплату'),
         ),
         migrations.AddField(
             model_name='payment',
             name='session_id',
-            field=models.CharField(blank=True, help_text='Укажите Id сессии', max_length=255, null=True, verbose_name='Id сессии'),
+            field=models.CharField(blank=True, help_text='Укажите Id сессии', max_length=255, null=True,
+                                   verbose_name='Id сессии'),
         ),
     ]

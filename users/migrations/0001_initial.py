@@ -8,7 +8,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -23,18 +22,40 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
+                ('is_superuser', models.BooleanField(default=False,
+                                                     help_text='Designates that this user has all permissions'
+                                                               ' without explicitly assigning them.',
+                                                     verbose_name='superuser status')),
                 ('first_name', models.CharField(blank=True, max_length=150, verbose_name='first name')),
                 ('last_name', models.CharField(blank=True, max_length=150, verbose_name='last name')),
-                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
-                ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
+                ('is_staff', models.BooleanField(default=False,
+                                                 help_text='Designates whether the user can log into this admin site.',
+                                                 verbose_name='staff status')),
+                ('is_active', models.BooleanField(default=True,
+                                                  help_text='Designates whether this user should'
+                                                            ' be treated as active. '
+                                                            'Unselect this instead of deleting accounts.',
+                                                  verbose_name='active')),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('email', models.EmailField(help_text='Введите вашу почту', max_length=254, unique=True, verbose_name='Email')),
-                ('phone_number', models.CharField(help_text='Укажите ваш номер телефона', max_length=35, verbose_name='Телефон')),
-                ('avatar', models.ImageField(blank=True, help_text='Загрузите ваш аватар', null=True, upload_to='users/avatar', verbose_name='Аватар')),
+                ('email',
+                 models.EmailField(help_text='Введите вашу почту', max_length=254, unique=True, verbose_name='Email')),
+                ('phone_number',
+                 models.CharField(help_text='Укажите ваш номер телефона', max_length=35, verbose_name='Телефон')),
+                ('avatar',
+                 models.ImageField(blank=True, help_text='Загрузите ваш аватар', null=True, upload_to='users/avatar',
+                                   verbose_name='Аватар')),
                 ('city', models.CharField(help_text='Напишите ваш город', max_length=150, verbose_name='Город')),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
+                ('groups', models.ManyToManyField(blank=True,
+                                                  help_text='The groups this user belongs to. '
+                                                            'A user will get all permissions granted'
+                                                            ' to each of their groups.',
+                                                  related_name='user_set', related_query_name='user',
+                                                  to='auth.group',
+                                                  verbose_name='groups')),
+                ('user_permissions', models.ManyToManyField(blank=True,
+                                                            help_text='Specific permissions for this user.',
+                                                            related_name='user_set', related_query_name='user',
+                                                            to='auth.permission', verbose_name='user permissions')),
             ],
             options={
                 'verbose_name': 'Пользователь',
@@ -50,10 +71,18 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('payment_date', models.DateField(help_text='Укажите дату оплаты', verbose_name='Дата оплаты')),
                 ('amount', models.PositiveIntegerField(help_text='Укажите сумму оплаты', verbose_name='Сумма оплаты')),
-                ('method', models.CharField(choices=[('Наличные', 'Наличные'), ('Перевод', 'Перевод')], help_text='Выберите способ оплаты', max_length=50, verbose_name='Способ оплаты')),
-                ('payment_course', models.ForeignKey(help_text='Выберите курс для оплаты', on_delete=django.db.models.deletion.CASCADE, to='materials.course', verbose_name='Курс')),
-                ('payment_lesson', models.ForeignKey(help_text='Выберите урок для оплаты', on_delete=django.db.models.deletion.CASCADE, to='materials.lesson', verbose_name='Урок')),
-                ('user', models.ForeignKey(help_text='Укажите пользователя', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                ('method', models.CharField(choices=[('Наличные', 'Наличные'), ('Перевод', 'Перевод')],
+                                            help_text='Выберите способ оплаты', max_length=50,
+                                            verbose_name='Способ оплаты')),
+                ('payment_course',
+                 models.ForeignKey(help_text='Выберите курс для оплаты', on_delete=django.db.models.deletion.CASCADE,
+                                   to='materials.course', verbose_name='Курс')),
+                ('payment_lesson',
+                 models.ForeignKey(help_text='Выберите урок для оплаты', on_delete=django.db.models.deletion.CASCADE,
+                                   to='materials.lesson', verbose_name='Урок')),
+                ('user',
+                 models.ForeignKey(help_text='Укажите пользователя', on_delete=django.db.models.deletion.CASCADE,
+                                   to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
             ],
             options={
                 'verbose_name': 'Платеж',
@@ -64,8 +93,11 @@ class Migration(migrations.Migration):
             name='Subscription',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('course', models.ForeignKey(help_text='Выберете курс', on_delete=django.db.models.deletion.CASCADE, to='materials.course', verbose_name='Курс')),
-                ('user', models.ForeignKey(help_text='Укажите пользователя', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                ('course', models.ForeignKey(help_text='Выберете курс', on_delete=django.db.models.deletion.CASCADE,
+                                             to='materials.course', verbose_name='Курс')),
+                ('user',
+                 models.ForeignKey(help_text='Укажите пользователя', on_delete=django.db.models.deletion.CASCADE,
+                                   to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
             ],
         ),
     ]
