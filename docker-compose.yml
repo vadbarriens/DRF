@@ -19,7 +19,7 @@ services:
       - drf_network
 
   db:
-    image: postgres:17.1-alpine
+    image: postgres:15-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
