@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -18,16 +17,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='course',
             name='owner',
-            field=models.ForeignKey(help_text='Укажите пользователя', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь'),
+            field=models.ForeignKey(help_text='Укажите пользователя', on_delete=django.db.models.deletion.CASCADE,
+                                    to=settings.AUTH_USER_MODEL, verbose_name='Пользователь'),
         ),
         migrations.AddField(
             model_name='lesson',
             name='course',
-            field=models.ForeignKey(help_text='Укажите курс', on_delete=django.db.models.deletion.CASCADE, to='materials.course', verbose_name='Курс'),
+            field=models.ForeignKey(help_text='Укажите курс', on_delete=django.db.models.deletion.CASCADE,
+                                    to='materials.course', verbose_name='Курс'),
         ),
         migrations.AddField(
             model_name='lesson',
             name='owner',
-            field=models.ForeignKey(help_text='Укажите пользователя', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь'),
+            field=models.ForeignKey(help_text='Укажите пользователя', on_delete=django.db.models.deletion.CASCADE,
+                                    to=settings.AUTH_USER_MODEL, verbose_name='Пользователь'),
         ),
     ]

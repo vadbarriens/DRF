@@ -16,7 +16,9 @@ def send_course_update_emails(course_id):
 
     for subscription in subscriptions:
         subject = f'Обновление курса {subscription.course.title}'
-        message = f'Уважаемый {subscription.user.username},\n\nКурс "{subscription.course.title}" был обновлен. Новые материалы доступны для изучения!\n\nС уважением,\nКоманда платформы'
+        message = (f'Уважаемый {subscription.user.username},\n'
+                   f'\nКурс "{subscription.course.title}" был обновлен. Новые материалы доступны для изучения!\n'
+                   f'\nС уважением,\nКоманда платформы')
 
         send_mail(
             subject=subject,

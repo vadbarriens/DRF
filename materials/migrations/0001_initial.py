@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,9 +14,12 @@ class Migration(migrations.Migration):
             name='Course',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(help_text='Укажите название курса', max_length=150, verbose_name='Название курса')),
-                ('preview', models.ImageField(blank=True, help_text='Загрузите превью', null=True, upload_to='materials/preview/course', verbose_name='Превью')),
-                ('description', models.TextField(blank=True, help_text='Напишите описание курса', null=True, verbose_name='Описание курса')),
+                ('title', models.CharField(help_text='Укажите название курса', max_length=150,
+                                           verbose_name='Название курса')),
+                ('preview', models.ImageField(blank=True, help_text='Загрузите превью', null=True,
+                                              upload_to='materials/preview/course', verbose_name='Превью')),
+                ('description', models.TextField(blank=True, help_text='Напишите описание курса',
+                                                 null=True, verbose_name='Описание курса')),
             ],
             options={
                 'verbose_name': 'Курс',
@@ -28,10 +30,14 @@ class Migration(migrations.Migration):
             name='Lesson',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(help_text='Укажите название урока', max_length=150, verbose_name='Название урока')),
-                ('preview', models.ImageField(blank=True, help_text='Загрузите превью', null=True, upload_to='materials/preview/lesson', verbose_name='Превью')),
-                ('description', models.TextField(blank=True, help_text='Напишите описание урока', null=True, verbose_name='Описание урока')),
-                ('link_video', models.URLField(blank=True, help_text='Прикрепите ссылку на видео', null=True, verbose_name='Ссылка')),
+                ('title', models.CharField(help_text='Укажите название урока', max_length=150,
+                                           verbose_name='Название урока')),
+                ('preview', models.ImageField(blank=True, help_text='Загрузите превью', null=True,
+                                              upload_to='materials/preview/lesson', verbose_name='Превью')),
+                ('description', models.TextField(blank=True, help_text='Напишите описание урока', null=True,
+                                                 verbose_name='Описание урока')),
+                ('link_video', models.URLField(blank=True, help_text='Прикрепите ссылку на видео', null=True,
+                                               verbose_name='Ссылка')),
             ],
             options={
                 'verbose_name': 'Урок',

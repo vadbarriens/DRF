@@ -64,7 +64,7 @@ class CourseViewSet(ModelViewSet):
 
     def perform_update(self, serializer):
         """Переопределяем метод обновления для добавления кастомной логики"""
-        instance = serializer.save()
+        _ = serializer.save()
 
 
 class LessonCreateApiView(CreateAPIView):

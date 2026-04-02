@@ -27,7 +27,9 @@ class LessonCRUDTestCase(APITestCase):
         self.course = Course.objects.create(
             title='Test Course',
             description='Test Description',
-            owner=self.user
+            owner=self.user,
+            amount=100
+
         )
 
         # Создаем урок
@@ -36,7 +38,8 @@ class LessonCRUDTestCase(APITestCase):
             description='Test Lesson Description',
             course=self.course,
             owner=self.user,
-            link_video='https://www.youtube.com/watch?v=test'
+            link_video='https://www.youtube.com/watch?v=test',
+            amount=100
         )
 
         # URL для тестирования
@@ -66,7 +69,8 @@ class LessonCRUDTestCase(APITestCase):
             'description': 'New Description',
             'course': self.course.pk,
             'link_video': 'https://youtube.com/watch?v=test',
-            'owner': self.user.pk
+            'owner': self.user.pk,
+            'amount': 100
         }
         response = self.client.post(self.create_url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -142,7 +146,8 @@ class SubscriptionTestCase(APITestCase):
         self.course = Course.objects.create(
             title='Test Course',
             description='Test Description',
-            owner=self.user
+            owner=self.user,
+            amount=100
         )
 
         # URL для подписки
